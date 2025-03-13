@@ -1,0 +1,7 @@
+<div>
+  @for (item of task; track item.id) {
+    <li>{{ item.description }}</li>
+  } @empty {
+    <li>There are no items.</li>
+  }
+</div>
