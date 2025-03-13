@@ -13,7 +13,7 @@ import { Task } from '../model/task';
 export class TodoComponent implements OnInit {
   private _todoService = inject(TodoService);
 
-  public task: Task[] | undefined;
+  public tasks: Task[] | undefined;
 
   ngOnInit(): void {
     this.getTasks();
@@ -21,7 +21,7 @@ export class TodoComponent implements OnInit {
 
   getTasks(): void {
     this._todoService.findAllTasks().subscribe({
-      next: (value) => value,
+      next: (value) => (this.tasks = value),
     });
   }
 }
