@@ -7,8 +7,13 @@ import {
 } from '@angular/core';
 import { TodoService } from '../service/todo.service';
 import { Task } from '../model/task';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   MatCell,
   MatCellDef,
@@ -22,23 +27,26 @@ import {
   MatTable,
   MatTableDataSource,
 } from '@angular/material/table';
-import { DatePipe } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-todo',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    NgForOf,
     MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderCellDef,
-    MatCellDef,
     MatCell,
+    MatCellDef,
     MatHeaderRow,
     MatRow,
     MatHeaderRowDef,
     MatRowDef,
-    DatePipe,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderCellDef,
+    MatInput,
   ],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
@@ -56,30 +64,63 @@ export class TodoComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Task> | undefined;
 
   dataSource = new MatTableDataSource<Task>([]);
-  displayedColumns = ['description', 'status', 'finishDate'];
+  displayedColumns = ['description'];
+  // tableRows: CdkTableDataSourceInput<any>;
 
   ngOnInit(): void {
-    this.buildForm();
+    // this.buildForm();
     this.getTasks();
+    // this.todoGroup = this._fb.group({
+    //   dataSource: this._fb.array([]),
+    // });
   }
-
-  // removeData() {
-  //   this.dataSource.pop();
-  //   this.table.renderRows();
-  // }
 
   getTasks(): void {
     this._todoService.findAllTasks().subscribe({
       next: (value) => (this.dataSource.data = value),
     });
   }
+  //
+  // public buildForm() {
+  //   this.todoGroup = this._fb.group({
+  //     id: [null],
+  //     description: [null, [Validators.required]],
+  //     status: [null],
+  //     finishDate: [null],
+  //   });
+  // }
+  //
+  // get getFormControls() {
+  //   return this.todoGroup.get('tableRows') as FormArray;
+  // }
+  //
+  // removeTask(index: number) {
+  //   const control = this.todoGroup.get('tableRows') as FormArray;
+  //   control.removeAt(index);
+  // }
 
-  public buildForm() {
-    this.todoGroup = this._fb.group({
-      id: [null],
-      description: [null],
-      status: [null],
-      finishDate: [null],
+  constructor(private fb: FormBuilder) {
+    this.todoGroup = this.fb.group({
+      tableRows: this.fb.array([]),
     });
+    this.addRow();
+  }
+
+  createFormGroup(): FormGroup {
+    return this.fb.group({
+      id: [''],
+      description: ['', [Validators.required]],
+      status: [''],
+      finishDate: [''],
+    });
+  }
+
+  get getFormControls() {
+    return this.todoGroup.get('tableRows') as FormArray;
+  }
+
+  addRow() {
+    const control = this.todoGroup.get('tableRows') as FormArray;
+    control.push(this.createFormGroup());
   }
 }

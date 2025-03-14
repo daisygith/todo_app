@@ -1,66 +1,87 @@
 <div class="todo-app">
   <div class="todo-title">My TODO App</div>
-  <div class="todo-list">
-    <!--      <mat-form-field class="example-full-width">-->
-    <!--        <mat-label>Favorite food</mat-label>-->
-    <!--        <input matInput placeholder="Ex. Pizza" value="Sushi" />-->
-    <!--      </mat-form-field>-->
-    <!--    <div class="list-title">-->
-    <!--      <div class="description">Description</div>-->
-    <!--      <div class="status">Status</div>-->
-    <!--      <div class="finishDate">My planning finish date</div>-->
-    <!--    </div>-->
-    <!--    <div class="list-title" [formGroup]="todoGroup">-->
-    <!--      @for (item of tasks; track item.id) {-->
-    <!--        &lt;!&ndash;          <div >{{ item.id }}</div>&ndash;&gt;-->
-    <!--        <div class="description">{{ item.description }}</div>-->
-    <!--        <div class="status">{{ item.status }}</div>-->
-    <!--        <div class="finishDate">{{ item.finishDate }}</div>-->
-    <!--      } @empty {-->
-    <!--        <li>There are no items.</li>-->
-    <!--      }-->
-    <!--    </div>-->
-    <div class="demo-button-container">
-      <!--      <button mat-raised-button (click)="addData()" class="demo-button">-->
-      <!--        Add data-->
-      <!--      </button>-->
-      <!--      <button-->
-      <!--        mat-raised-button-->
-      <!--        [disabled]="!dataSource.length"-->
-      <!--        (click)="removeData()"-->
-      <!--        class="demo-button"-->
-      <!--      >-->
-      <!--        Remove data-->
-      <!--      </button>-->
-    </div>
+  <!--  <div class="todo-list"></div>-->
+  <div class="pt-2">
+    <form [formGroup]="todoGroup">
+      <ng-container
+        formArrayName="tableRows"
+        *ngFor="let group of getFormControls.controls; let i = index"
+      >
+        <table class="table table-bordered" mat-table [dataSource]="dataSource">
+          <!--        <thead>-->
+          <!--          <tr class="text-uppercase table-dark">-->
+          <!--            <th scope="col">Description</th>-->
+          <!--            <th scope="col">Status</th>-->
+          <!--            <th scope="col">Finish Date</th>-->
+          <!--          </tr>-->
+          <!--        </thead>-->
+          <!--        <tbody >-->
 
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="mat-elevation-z8 demo-table"
-    >
-      <!-- Position Column -->
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>description</th>
-        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+          <tr [formGroupName]="i">
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>description</th>
+              <td mat-cell *matCellDef="let element">
+                <input
+                  matInput
+                  type="text"
+                  class="form-control"
+                  formControlName="description"
+                  [placeholder]="element.description"
+                  [value]="element.description?.[i]"
+                />
+                <!--                <div-->
+                <!--                  class="text-danger"-->
+                <!--                  *ngIf="-->
+                <!--                    getFormControls.controls[i].get('description')?.touched-->
+                <!--                  "-->
+                <!--                ></div>-->
+              </td>
+            </ng-container>
+            <!--              <td>-->
+            <!--                <input-->
+            <!--                  type="text"-->
+            <!--                  class="form-control"-->
+            <!--                  formControlName="status"-->
+            <!--                  placeholder="Enter Last"-->
+            <!--                />-->
+            <!--              </td>-->
+            <!--              <td>-->
+            <!--                <input-->
+            <!--                  type="text"-->
+            <!--                  class="form-control"-->
+            <!--                  formControlName="finishDate"-->
+            <!--                  placeholder="Enter City"-->
+            <!--                />-->
+            <!--              </td>-->
+            <!--              <td>-->
+            <!--                <button class="btn btn-danger" (click)="removeEmployee(i)">-->
+            <!--                  Remove-->
+            <!--                </button>-->
+            <!--              </td>-->
+          </tr>
+
+          <!--          <ng-container>-->
+          <!--            <tr>-->
+          <!--              <td colspan="7">-->
+          <!--                <div class="row">-->
+          <!--                  <div class="col-12 text-center">-->
+          <!--                    <button-->
+          <!--                      class="btn btn-success"-->
+          <!--                      [disabled]="employeeForm.invalid"-->
+          <!--                      (click)="onSaveForm()"-->
+          <!--                    >-->
+          <!--                      Save Bulk Employee-->
+          <!--                    </button>-->
+          <!--                  </div>-->
+          <!--                </div>-->
+          <!--              </td>-->
+          <!--            </tr>-->
+          <!--          </ng-container>-->
+          <!--        </tbody>-->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
       </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>status</th>
-        <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="finishDate">
-        <th mat-header-cell *matHeaderCellDef>finishDate</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.finishDate | date: "YYYY-MM-dd" }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    </form>
   </div>
 </div>
