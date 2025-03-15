@@ -66,7 +66,12 @@ exports.updateTask = async function (task) {
 
     await conn.execute(
       `BEGIN UPDATE_TASK(:id, :description, :status, :finishDate); END;`,
-      { ...task, finishDate: new Date(task.finishDate) },
+      {
+        id: task.id,
+        description: task.description,
+        status: task.status,
+        finishDate: new Date(task.finishDate),
+      },
     );
     const result = await conn.execute(
       `SELECT * FROM task WHERE id = :id`,
