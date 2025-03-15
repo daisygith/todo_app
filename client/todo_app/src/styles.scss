@@ -10,10 +10,19 @@ body {
 }
 
 :root {
-  --main-color: #ffffff;
+  --main-color: rgb(255, 255, 255);
   --main-color-text: #000000;
 }
 
 body {
-  background-color: var(--orange-red);
+  //background: linear-gradient(
+  //  -225deg,
+  //  #231557 0%,
+  //  #44107a 29%,
+  //  rgb(255, 67, 128) 67%,
+  //  rgba(255, 248, 0, 0.56) 100%
+  //);
+  background: linear-gradient(-225deg, #473b7b 0%, #3584a7 51%, #13ac9c 100%);
 }
+
+//background-image: ;

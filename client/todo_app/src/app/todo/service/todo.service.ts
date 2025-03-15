@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Task } from '../model/task';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
@@ -11,6 +11,20 @@ export class TodoService {
 
   //get all tasks
   findAllTasks(): Observable<Task[]> {
-    return this._http.get<Task[]>(`${this._apiUrl}`);
+    return this._http
+      .get<Task[]>(`${this._apiUrl}`)
+      .pipe(
+        map((data) =>
+          data.map((item) => ({
+            ...item,
+            finishDate: new Date(item.finishDate),
+          })),
+        ),
+      );
+  }
+
+  //delete teask by ID
+  deleteTaskById(taskId: number): Observable<void> {
+    return this._http.delete<void>(`${this._apiUrl}/${taskId}`);
   }
 }

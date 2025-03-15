@@ -1,87 +1,97 @@
 <div class="todo-app">
-  <div class="todo-title">My TODO App</div>
-  <!--  <div class="todo-list"></div>-->
-  <div class="pt-2">
-    <form [formGroup]="todoGroup">
-      <ng-container
+  <div class="todo-title permanent-marker-regular">My TODO App</div>
+  <div class="todo-list">
+    <form [formGroup]="todoGroup" class="form-task">
+      <table
+        id="selectStackBody"
+        class="table table-bordered"
+        mat-table
+        [dataSource]="dataSource"
         formArrayName="tableRows"
-        *ngFor="let group of getFormControls.controls; let i = index"
       >
-        <table class="table table-bordered" mat-table [dataSource]="dataSource">
-          <!--        <thead>-->
-          <!--          <tr class="text-uppercase table-dark">-->
-          <!--            <th scope="col">Description</th>-->
-          <!--            <th scope="col">Status</th>-->
-          <!--            <th scope="col">Finish Date</th>-->
-          <!--          </tr>-->
-          <!--        </thead>-->
-          <!--        <tbody >-->
-
-          <tr [formGroupName]="i">
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef>description</th>
-              <td mat-cell *matCellDef="let element">
-                <input
-                  matInput
-                  type="text"
-                  class="form-control"
-                  formControlName="description"
-                  [placeholder]="element.description"
-                  [value]="element.description?.[i]"
-                />
-                <!--                <div-->
-                <!--                  class="text-danger"-->
-                <!--                  *ngIf="-->
-                <!--                    getFormControls.controls[i].get('description')?.touched-->
-                <!--                  "-->
-                <!--                ></div>-->
-              </td>
-            </ng-container>
-            <!--              <td>-->
-            <!--                <input-->
-            <!--                  type="text"-->
-            <!--                  class="form-control"-->
-            <!--                  formControlName="status"-->
-            <!--                  placeholder="Enter Last"-->
-            <!--                />-->
-            <!--              </td>-->
-            <!--              <td>-->
-            <!--                <input-->
-            <!--                  type="text"-->
-            <!--                  class="form-control"-->
-            <!--                  formControlName="finishDate"-->
-            <!--                  placeholder="Enter City"-->
-            <!--                />-->
-            <!--              </td>-->
-            <!--              <td>-->
-            <!--                <button class="btn btn-danger" (click)="removeEmployee(i)">-->
-            <!--                  Remove-->
-            <!--                </button>-->
-            <!--              </td>-->
-          </tr>
-
-          <!--          <ng-container>-->
-          <!--            <tr>-->
-          <!--              <td colspan="7">-->
-          <!--                <div class="row">-->
-          <!--                  <div class="col-12 text-center">-->
-          <!--                    <button-->
-          <!--                      class="btn btn-success"-->
-          <!--                      [disabled]="employeeForm.invalid"-->
-          <!--                      (click)="onSaveForm()"-->
-          <!--                    >-->
-          <!--                      Save Bulk Employee-->
-          <!--                    </button>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </td>-->
-          <!--            </tr>-->
-          <!--          </ng-container>-->
-          <!--        </tbody>-->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </ng-container>
+        <ng-container matColumnDef="description">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="column-title permanent-marker-regular"
+          >
+            DESCRIPTION
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroupName]="i"
+          >
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              formControlName="description"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="column-title permanent-marker-regular"
+          >
+            STATUS
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroupName]="i"
+          >
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              formControlName="status"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="finishDate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="column-title permanent-marker-regular"
+          >
+            FINISH DATE
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroupName]="i"
+          >
+            <input matInput class="form-control" formControlName="finishDate" />
+          </td>
+        </ng-container>
+        <!--        ACTIONS-->
+        <ng-container matColumnDef="actions">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="column-title permanent-marker-regular"
+          ></th>
+          <td
+            mat-cell
+            *matCellDef="let element; let i = index"
+            [formGroupName]="i"
+          >
+            <button mat-mini-fab id="button-delete" (click)="deleteTask(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
     </form>
+    <div class="col-6 text-end">
+      <button mat-mini-fab id="button-add" (click)="addRow()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
 </div>

@@ -11,15 +11,50 @@ app-todo {
     align-items: center;
 
     .todo-title {
-      font-size: 30px;
+      font-size: 50px;
       font-weight: bold;
       margin: 20px 0 20px 0;
+      color: var(--main-color);
+      opacity: 0.8;
+    }
+    .permanent-marker-regular {
+      font-family: "Permanent Marker", cursive;
+      font-weight: 600;
+      font-style: normal;
     }
 
     .todo-list {
-      .mat-mdc-header-cell.mat-column-description {
-        width: 300px;
+      .mat-mdc-header-cell.mat-column-description,
+      .mat-mdc-header-cell.mat-column-status,
+      .mat-mdc-header-cell.mat-column-finishDate {
+        //width: 300px;
+        color: var(--main-color);
+        font-size: 20px;
+        text-align: center;
+      }
+      .form-task {
+        margin: 0 0 10px 0;
+      }
+      button#button-add,
+      button#button-delete {
+        border-radius: 50px;
+        background-color: #ffffff;
       }
     }
+  }
+  .mat-mdc-table {
+    background-color: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+  }
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    border-bottom-color: rgba(255, 255, 255, 0.81);
+  }
+  input {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    border-color: rgba(255, 255, 255, 0.81) !important;
+    font-size: 18px;
   }
 }
