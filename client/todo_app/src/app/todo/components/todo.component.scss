@@ -1,6 +1,4 @@
 app-todo {
-  //width: 100%;
-  //margin: auto 0;
   background-color: var(--red-to-pink-to-purple-vertical-gradient);
 
   .todo-app {
@@ -18,27 +16,52 @@ app-todo {
       opacity: 0.8;
     }
     .permanent-marker-regular {
-      font-family: "Permanent Marker", cursive;
-      font-weight: 600;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-optical-sizing: auto;
       font-style: normal;
     }
 
     .todo-list {
+      .mat-mdc-header-cell.mat-column-description {
+        width: 300px;
+      }
+
       .mat-mdc-header-cell.mat-column-description,
       .mat-mdc-header-cell.mat-column-status,
       .mat-mdc-header-cell.mat-column-finishDate {
-        //width: 300px;
         color: var(--main-color);
-        font-size: 20px;
+        font-size: 18px;
         text-align: center;
       }
+
       .form-task {
         margin: 0 0 10px 0;
       }
+
+      .form-row {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        border: rgb(255, 255, 255) 1px solid;
+        font-size: 18px;
+        padding: 10px;
+        color: white;
+      }
+
       button#button-add,
-      button#button-delete {
+      button#button-delete,
+      button#button-edit {
         border-radius: 50px;
         background-color: #ffffff;
+      }
+      button#button-edit {
+        margin-right: 8px;
+      }
+      button#button-ok {
+        color: #22ed22;
+      }
+      button#button-cancel {
+        color: #320303;
       }
     }
   }
@@ -51,10 +74,31 @@ app-todo {
   .mat-mdc-cell {
     border-bottom-color: rgba(255, 255, 255, 0.81);
   }
-  input {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     background: rgba(255, 255, 255, 0.18);
     border-radius: 10px;
-    border-color: rgba(255, 255, 255, 0.81) !important;
+    border: rgb(255, 255, 255) 1px solid;
     font-size: 18px;
+  }
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+  tr {
+    padding: 8px 0 8px 0;
+  }
+  .mdc-text-field__input {
+    color: white !important;
+  }
+  span.mat-mdc-select-value-text {
+    color: white;
+  }
+  .mat-column-actions {
+    text-align: right;
+  }
+  table#selectStackBody {
+    width: 975px;
   }
 }

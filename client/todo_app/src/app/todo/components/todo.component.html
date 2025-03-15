@@ -1,7 +1,8 @@
 <div class="todo-app">
-  <div class="todo-title permanent-marker-regular">My TODO App</div>
+  <div class="todo-title permanent-marker-regular">TODO App</div>
   <div class="todo-list">
     <form [formGroup]="todoGroup" class="form-task">
+      <!--      <ng-container formArrayName="tableRows">-->
       <table
         id="selectStackBody"
         class="table table-bordered"
@@ -9,6 +10,7 @@
         [dataSource]="dataSource"
         formArrayName="tableRows"
       >
+        <!--          DESCRIPTION COLUMN-->
         <ng-container matColumnDef="description">
           <th
             mat-header-cell
@@ -22,14 +24,24 @@
             *matCellDef="let element; let i = index"
             [formGroupName]="i"
           >
-            <input
-              matInput
-              type="text"
-              class="form-control"
-              formControlName="description"
-            />
+            @if (tableRowsValue[i].isEdited) {
+              <mat-form-field [appearance]="'fill'">
+                <input
+                  matInput
+                  type="text"
+                  class="form-control"
+                  formControlName="description"
+                />
+              </mat-form-field>
+            } @else {
+              <div class="form-row">
+                {{ element.description }}
+              </div>
+            }
           </td>
         </ng-container>
+
+        <!--          STATUS COLUMN-->
         <ng-container matColumnDef="status">
           <th
             mat-header-cell
@@ -43,14 +55,26 @@
             *matCellDef="let element; let i = index"
             [formGroupName]="i"
           >
-            <input
-              matInput
-              type="text"
-              class="form-control"
-              formControlName="status"
-            />
+            @if (tableRowsValue[i].isEdited) {
+              <mat-form-field [appearance]="'fill'">
+                <mat-select type="text" is="status" formControlName="status">
+                  <mat-option
+                    *ngFor="let status of statusTask"
+                    [value]="status"
+                  >
+                    {{ status }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            } @else {
+              <div class="form-row">
+                {{ element.status }}
+              </div>
+            }
           </td>
         </ng-container>
+
+        <!--          FINISH DATE COLUMN-->
         <ng-container matColumnDef="finishDate">
           <th
             mat-header-cell
@@ -64,22 +88,83 @@
             *matCellDef="let element; let i = index"
             [formGroupName]="i"
           >
-            <input matInput class="form-control" formControlName="finishDate" />
+            @if (tableRowsValue[i].isEdited) {
+              <mat-form-field [appearance]="'fill'">
+                <input
+                  matInput
+                  class="form-control"
+                  formControlName="finishDate"
+                  [matDatepicker]="picker"
+                  [min]="minDate"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            } @else {
+              <div class="form-row">
+                {{ element.finishDate | date: "dd-MM-YYYY" }}
+              </div>
+            }
           </td>
         </ng-container>
-        <!--        ACTIONS-->
+
+        <!--        ACTIONS COLUMN-->
         <ng-container matColumnDef="actions">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="column-title permanent-marker-regular"
+            class="column-title permanent-marker-regular actions"
           ></th>
           <td
             mat-cell
             *matCellDef="let element; let i = index"
             [formGroupName]="i"
           >
-            <button mat-mini-fab id="button-delete" (click)="deleteTask(i)">
+            <button
+              mat-icon-button
+              id="button-ok"
+              class="material-icons app-toolbar-menu save-button"
+              matTooltip="Save Changes"
+              (click)="saveTask(i)"
+              *ngIf="tableRowsValue[i].isEdited"
+              color="primary"
+            >
+              <mat-icon>check_circle</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              id="button-cancel"
+              class="material-icons app-toolbar-menu cancel-button"
+              matTooltip="Cancel Changes"
+              color="warn"
+              (click)="cancelTask(i)"
+              *ngIf="tableRowsValue[i].isEdited"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              id="button-edit"
+              *ngIf="!tableRowsValue[i].isEdited"
+              matTooltip="Edit"
+              color="primary"
+              (click)="editTask(i)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-mini-fab
+              id="button-delete"
+              matTooltip="Delete"
+              color="warn"
+              (click)="deleteTask(element)"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -87,9 +172,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <!--      </ng-container>-->
     </form>
     <div class="col-6 text-end">
-      <button mat-mini-fab id="button-add" (click)="addRow()">
+      <button
+        mat-mini-fab
+        id="button-add"
+        matTooltip="Add new task"
+        (click)="addNewRow()"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>
