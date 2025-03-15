@@ -2,7 +2,6 @@
   <div class="todo-title permanent-marker-regular">TODO App</div>
   <div class="todo-list">
     <form [formGroup]="todoGroup" class="form-task">
-      <!--      <ng-container formArrayName="tableRows">-->
       <table
         id="selectStackBody"
         class="table table-bordered"
@@ -172,7 +171,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-      <!--      </ng-container>-->
     </form>
     <div class="col-6 text-end">
       <button
