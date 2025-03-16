@@ -170,6 +170,22 @@ END;
 
 /
 --------------------------------------------------------
+--  DBMS_SCHEDULER for Procedure STATUS_UPDATE
+--------------------------------------------------------
+
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB (
+   job_name           =>  'check_task_status',
+   job_type           =>  'PLSQL_BLOCK',
+   job_action         =>  'BEGIN status_update; END;',
+   start_date         =>   SYSTIMESTAMP,
+   repeat_interval    =>  'FREQ=DAILY;BYHOUR=23; BYMINUTE=59;', /* every other day */
+   enabled            =>   TRUE,
+   comments           =>  'Sheduler to check task status.');
+END;
+/
+
+--------------------------------------------------------
 --  Constraints for Table TASK
 --------------------------------------------------------
 
