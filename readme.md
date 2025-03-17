@@ -48,7 +48,7 @@ In **plsql file** is code from TODO base. I created there:
 * rxjs
 * Typescript
 * Java 21
-* Oracle
+* Oracle SQL Developer
 
 ## **Installation**
 
